@@ -120,7 +120,7 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
 export async function getStaticPaths() {
   // ! fix build issue
-  const thumb = await Promise.resolve();
+  await Promise.resolve();
   return {
     paths: [],
     fallback: "blocking",
