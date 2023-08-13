@@ -67,7 +67,7 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       );
     },
   });
-  if (!profile || profile.name) return <ErrorPage statusCode={404} />;
+  if (!profile || !profile.name) return <ErrorPage statusCode={404} />;
 
   const tweets = api.tweet.infiniteProfileFeed.useInfiniteQuery(
     { userId: id },
@@ -79,7 +79,7 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   return (
     <>
       <Head>
-        <title>{`Twitter Clone - ${profile.name ?? ""}`}</title>
+        <title>{`Twitter Clone - ${profile.name}`}</title>
       </Head>
       <header className="sticky top-0 z-10 flex items-center border-b bg-white px-4 py-2">
         <Link href=".." className="mr-2">
@@ -118,9 +118,7 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   );
 };
 
-export async function getStaticPaths() {
-  // ! fix build issue
-  await Promise.resolve();
+export function getStaticPaths() {
   return {
     paths: [],
     fallback: "blocking",
