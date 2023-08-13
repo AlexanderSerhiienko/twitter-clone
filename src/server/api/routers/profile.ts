@@ -1,8 +1,5 @@
-import { Prisma } from "@prisma/client";
-import { inferAsyncReturnType } from "@trpc/server";
 import { z } from "zod";
 import {
-  createTRPCContext,
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
@@ -46,7 +43,7 @@ export const profileRouter = createTRPCRouter({
   toggleFollow: protectedProcedure
     .input(z.object({ userId: z.string() }))
     .mutation(async ({ input: { userId }, ctx }) => {
-      const currentUserId = ctx.session!.user.id;
+      const currentUserId = ctx.session.user.id;
       const existingFollow = await ctx.prisma.user.findFirst({
         where: {
           id: userId,

@@ -14,7 +14,6 @@ export const ProfileImage = ({ src, className = "" }: ProfileImageProps) => {
       ) : (
         <VscAccount className="h-full w-full" />
       )}
-      <img />
     </div>
   );
 };
