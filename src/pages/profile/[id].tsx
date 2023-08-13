@@ -49,7 +49,7 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   const trpcUtils = api.useContext();
   const { data: profile } = api.profile.getById.useQuery({ id });
   const toggleFollow = api.profile.toggleFollow.useMutation({
-    onSuccess: ({ addedFollower }) => {
+    onSuccess: ({ addedFollow }) => {
       trpcUtils.profile.getById.setData(
         {
           id,
@@ -57,10 +57,10 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         (oldData) => {
           if (!oldData) return;
 
-          const countModifier = addedFollower ? 1 : -1;
+          const countModifier = addedFollow ? 1 : -1;
           return {
             ...oldData,
-            isFollowing: addedFollower,
+            isFollowing: addedFollow,
             followersCount: oldData.followersCount + countModifier,
           };
         }

@@ -83,7 +83,12 @@ const Form = () => {
           onChange={(e) => setInputValue(e.target.value)}
         />
       </div>
-      <Button className="self-end">Tweet</Button>
+      <Button
+        disabled={!inputValue.length || createTweet.isLoading}
+        className="self-end"
+      >
+        Tweet
+      </Button>
     </form>
   );
 };

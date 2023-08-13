@@ -45,37 +45,25 @@ export const profileRouter = createTRPCRouter({
     .mutation(async ({ input: { userId }, ctx }) => {
       const currentUserId = ctx.session.user.id;
       const existingFollow = await ctx.prisma.user.findFirst({
-        where: {
-          id: userId,
-          followers: {
-            some: { id: currentUserId },
-          },
-        },
+        where: { id: userId, followers: { some: { id: currentUserId } } },
       });
 
-      let addedFollower: boolean;
+      let addedFollow: boolean;
 
       if (!existingFollow) {
         await ctx.prisma.user.update({
-          where: { id: currentUserId },
-          data: {
-            followers: {
-              connect: { id: userId },
-            },
-          },
+          where: { id: userId },
+          data: { followers: { connect: { id: currentUserId } } },
         });
-        addedFollower = true;
+        addedFollow = true;
       } else {
         await ctx.prisma.user.update({
-          where: { id: currentUserId },
-          data: {
-            followers: {
-              disconnect: { id: userId },
-            },
-          },
+          where: { id: userId },
+          data: { followers: { disconnect: { id: currentUserId } } },
         });
-        addedFollower = false;
+        addedFollow = false;
       }
-      return { addedFollower };
+
+      return { addedFollow };
     }),
 });
